@@ -1,34 +1,46 @@
-/* AuW3.JS 0.0.1 December 2017 https://github.com/nathanielwiley/AuW3 */
+/* AuW3.JS 0.1.0 December 2017 https://github.com/nathanielwiley/AuW3 */
 /* Dependent on W3.JS https://www.w3schools.com/w3js/ by w3schools.com  */
 ;"use strict";
-var AuW3 = AuW3 || (function(){
-	document.body.addEventListener('click',function(event){
-		if(event.target.classList.contains('AuW3')){
-			var aActions = event.target.getAttribute('data-auw3').split('|');
-			for(var i in aActions){
-				var thisAction = aActions[i].split('=');
-				var aTasks = thisAction[1].split(';');
-				var verb = thisAction[0];
-				for(var j in aTasks){
-					var args = aTasks[j].split(',');
-					if(verb === 'v-') w3.hide(aTasks[j]);
-					if(verb === 'v+') w3.show(aTasks[j]);
-					if(verb === 'vt') w3.toggleShow(aTasks[j]);
-					if(verb === 's+') w3.addStyle(args[0],args[1],args[2]);
-					if(verb === 'c-') w3.removeClass(args[0],args[1]);
-					if(verb === 'c+') w3.addClass(args[0],args[1]);
-					if(verb === 'ct') w3.toggleClass(args[0],args[1],args[2]);
+if(typeof(w3) === 'object'){
+	var AuW3 = {
+		tasks:{
+			click:{hide:'',show:'','toggle-show':'',style:'','add-class':'','remove-class':'','toggle-class':''},
+			input:{'filter-html':''}
+		},
+		mapping:{
+			click:{hide:'hide',show:'show','toggle-show':'toggleShow',style:'addStyle','add-class':'addClass','remove-class':'removeClass','toggle-class':'toggleClass'},
+			input:{'filter-html':'filterHTML'}
+		},
+		useSimpleArgs:['hide','show','toggle-show'],
+		readTasks:function(event){
+			for(var i in AuW3.tasks[event.type]){
+				AuW3.tasks[event.type][i] = event.target.getAttribute('auw3-'+i);
+			}
+		},
+		runTasks:function(event){
+			AuW3.readTasks(event);
+			for(var i in AuW3.tasks[event.type]){
+				AuW3.runTask(event.type,i,event.target.value);
+			}
+		},
+		runTask:function(category,name,value){
+			var taskQ = AuW3.tasks[category][name];
+			if(taskQ !== null && typeof(taskQ) === 'string'){
+				var taskA = taskQ.split(';');
+				for(var i in taskA){
+					var simpleArgs = taskA[i];
+					var complexArgs = simpleArgs.split(',');
+					if(AuW3.useSimpleArgs.indexOf(name) > -1){
+						w3[AuW3.mapping[category][name]](simpleArgs);
+					} else if(name === 'filter-html'){
+						w3[AuW3.mapping[category][name]](complexArgs[0],complexArgs[1],value);
+					} else {
+						w3[AuW3.mapping[category][name]](complexArgs[0],complexArgs[1],complexArgs[2]);
+					}
 				}
 			}
 		}
-	});
-	document.body.addEventListener('input',function(event){
-		if(event.target.classList.contains('AuW3')){
-			var aActions = event.target.getAttribute('data-auw3').split('|');
-			for(var i in aActions){
-				var args = aActions[i].split(',');
-				w3.filterHTML(args[0],args[1],event.target.value);
-			}
-		}
-	});
-})();
+	};
+	document.body.addEventListener('click',function(event){ AuW3.runTasks(event); });
+	document.body.addEventListener('input',function(event){ AuW3.runTasks(event); });
+}
