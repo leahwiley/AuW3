@@ -1,4 +1,4 @@
-/* AuW3.JS 0.2.0 December 2017 https://github.com/nathanielwiley/AuW3 */
+/* AuW3.JS 0.2.1 December 2017 https://github.com/nathanielwiley/AuW3 */
 /* Dependent on W3.JS https://www.w3schools.com/w3js/ by w3schools.com  */
 ;"use strict";
 if(typeof(w3) === 'object'){
@@ -40,6 +40,7 @@ if(typeof(w3) === 'object'){
 				}
 			}
 		}
+		/*	START Behavior Definitions	*/
 		buildTask('input','filter-html',false,'filterHTML',true);
 		buildTask('click','hide',true);
 		buildTask('click','show',true);
@@ -48,6 +49,7 @@ if(typeof(w3) === 'object'){
 		buildTask('click','add-class',false,'addClass');
 		buildTask('click','remove-class',false,'removeClass');
 		buildTask('click','toggle-class',false,'toggleClass');
+		/*	END Behavior Definitions	*/
 		return {
 			state:function(){ return oTasks; },
 			runTasks:function(event){
@@ -58,6 +60,7 @@ if(typeof(w3) === 'object'){
 			}
 		};
 	})();
-	document.body.addEventListener('click',function(event){ AuW3.runTasks(event); });
-	document.body.addEventListener('input',function(event){ AuW3.runTasks(event); });
+	for(var i in AuW3.state()){
+		document.body.addEventListener(i,function(event){ AuW3.runTasks(event); });
+	}	
 }
