@@ -1,20 +1,21 @@
-/* AuW3.JS 0.2.2 December 2017 https://github.com/nathanielwiley/AuW3 */
+/* AuW3.JS 0.3.0 December 2017 https://github.com/nathanielwiley/AuW3 */
 /* Dependent on W3.JS https://www.w3schools.com/w3js/ by w3schools.com  */
 ;"use strict";
 if(typeof(w3) === 'object'){
 	var AuW3 = AuW3 || (function(){
-		var oTasks = {};
-		function buildTask(category,name,simpleArgs,map,useValue){
+		var oTasks = {},aSlideShows=[],slideShowIndex={};
+		function buildTask(category,name,simpleArgs,map,useValue,slideShow){
 			name = name || '';
 			map = map || name;
-			if(w3.hasOwnProperty(map)){
+			slideShow = (typeof(slideShow) === 'boolean')? slideShow : false || false;
+			if(w3.hasOwnProperty(map) || slideShow){
 				name = name.toLowerCase();
 				category = category || 'click';
 				category = category.toLowerCase();
 				simpleArgs = (typeof(simpleArgs) === 'boolean')? simpleArgs : false || false;
 				useValue = (typeof(useValue) === 'boolean')? useValue : false || false;
 				if(!oTasks.hasOwnProperty(category)) oTasks[category] = {};
-				oTasks[category][name] = { v:'', simple:simpleArgs, value:useValue , map:map };
+				oTasks[category][name] = { v:'', simple:simpleArgs, value:useValue, slide:slideShow, map:map };
 			}
 		}
 		function readTasks(event){
@@ -30,7 +31,20 @@ if(typeof(w3) === 'object'){
 				for(var i in taskA){
 					var simpleArgs = taskA[i];
 					var complexArgs = simpleArgs.split(',');
-					if(thisTask.simple){
+					if(thisTask.slide){
+						var thisShowIndex = slideShowIndex[complexArgs[0]] || 0;
+						var thisShow = aSlideShows[thisShowIndex];
+						if(thisTask.map === 'speed'){
+							var stopped = (thisShow.milliseconds === 0)? true : false;
+							thisShow.milliseconds = (thisTask.value)? value : Number(complexArgs[1]);
+							if(stopped || thisTask.value) thisShow.start();
+						} else if(thisTask.map === 'stop'){
+							thisShow.milliseconds = 0;
+						} else {
+							if(thisShow.milliseconds === 0 && thisTask.map === 'start') thisShow.milliseconds = 1000;
+							thisShow[thisTask.map]();
+						}
+					} else if(thisTask.simple){
 						w3[thisTask.map](simpleArgs);
 					} else if(thisTask.value){
 						w3[thisTask.map](complexArgs[0],complexArgs[1],value);
@@ -50,6 +64,12 @@ if(typeof(w3) === 'object'){
 		buildTask('click','remove-class',false,'removeClass');
 		buildTask('click','toggle-class',false,'toggleClass');
 		buildTask('click','sort-html',false,'sortHTML');
+		buildTask('click','slide-start',false,'start',false,true);
+		buildTask('click','slide-previous',false,'previous',false,true);
+		buildTask('click','slide-next',false,'next',false,true);
+		buildTask('click','slide-stop',false,'stop',false,true);
+		buildTask('click','slide-speed',false,'speed',false,true);
+		buildTask('change','slide-speed',false,'speed',true,true);
 		/*	END Behavior Definitions	*/
 		return {
 			state:function(){ return oTasks; },
@@ -58,10 +78,18 @@ if(typeof(w3) === 'object'){
 				for(var i in oTasks[event.type]){
 					runTask(event.type,i,event.target.value);
 				}
-			}
+			},
+			slideshow:function(selector,interval){
+				var show = w3.slideshow(selector,interval);
+				slideShowIndex[selector] = aSlideShows.length;
+				aSlideShows.push(show);
+				return show;
+			},
+			SlideShows: function(){ return aSlideShows; }
 		};
 	})();
 	for(var i in AuW3.state()){
 		document.body.addEventListener(i,function(event){ AuW3.runTasks(event); });
-	}	
+	}
+	AuW3.slideshow('.AuW3-auto-slide');
 }
