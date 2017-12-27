@@ -1,4 +1,4 @@
-/* AuW3.JS 0.2.1 December 2017 https://github.com/nathanielwiley/AuW3 */
+/* AuW3.JS 0.2.2 December 2017 https://github.com/nathanielwiley/AuW3 */
 /* Dependent on W3.JS https://www.w3schools.com/w3js/ by w3schools.com  */
 ;"use strict";
 if(typeof(w3) === 'object'){
@@ -49,6 +49,7 @@ if(typeof(w3) === 'object'){
 		buildTask('click','add-class',false,'addClass');
 		buildTask('click','remove-class',false,'removeClass');
 		buildTask('click','toggle-class',false,'toggleClass');
+		buildTask('click','sort-html',false,'sortHTML');
 		/*	END Behavior Definitions	*/
 		return {
 			state:function(){ return oTasks; },
