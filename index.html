@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<!--<link rel="icon" href="../../favicon.ico">-->
+
+		<title>AuW3 - W3.CSS/JS Plugin</title>
+
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<link rel="stylesheet" href="auw3.css">
+		<script src="https://use.fontawesome.com/1174070f0b.js"></script>
+	</head>
+	<body>
+		<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar">
+			<div class="w3-container">
+				<button id="closeMenu" class="w3-button w3-hide-large w3-large w3-display-topright w3-hide w3-amber" auw3-hide="#mySidebar" auw3-toggle-class="#openMenu,w3-hide,w3-show;#closeMenu,w3-hide,w3-show">&times;</button>
+				<p><strong class="w3-large"><a href="#">AuW3 <span class="w3-small">(0.3.1)</span></a></strong></p>
+				<p><a href="https://github.com/nathanielwiley/AuW3" class="w3-small" target="_blank">Github Repository <i class="fa fa-lg fa-github"></i></a></p>
+			</div>
+			<input name="navFilter" id="navFilter" auw3-filter-html="#nav,a.w3-bar-item" placeholder="Filter" value="" type="text" class="w3-input w3-border">
+			<div id="nav">
+				<a href="#" class="w3-bar-item w3-button">Link 2</a>
+				<a href="#" class="w3-bar-item w3-button">Link 3</a>
+				<a href="#" class="w3-bar-item w3-button">Link 2</a>
+				<a href="#" class="w3-bar-item w3-button">Link 3</a>
+				<a href="#" class="w3-bar-item w3-button">Link 2</a>
+				<a href="#" class="w3-bar-item w3-button">Link 3</a>
+				<a href="#" class="w3-bar-item w3-button">Link 2</a>
+				<a href="#" class="w3-bar-item w3-button">Link 3</a>
+				<a href="#" class="w3-bar-item w3-button">Link 2</a>
+				<a href="#" class="w3-bar-item w3-button">Link 3</a>
+				<a href="#" class="w3-bar-item w3-button">Link 2</a>
+				<a href="#" class="w3-bar-item w3-button">Link 3</a>
+				<a href="#" class="w3-bar-item w3-button">Link 2</a>
+				<a href="#" class="w3-bar-item w3-button">Link 3</a>
+				<a href="#" class="w3-bar-item w3-button">Link 2</a>
+				<a href="#" class="w3-bar-item w3-button">Link 3</a>
+				<strong><a href="#changelog" class="w3-bar-item w3-button w3-amber">Change Log</a></strong>
+				<p class="w3-container">&nbsp;</p>
+			</div>
+			
+		</div>
+
+		<div class="w3-main" id="#summit" style="margin-left:200px">
+			<div class="w3-orange w3-display-container">
+				<button id="openMenu" class="w3-button w3-hide-large w3-xxlarge w3-display-right" auw3-show="#mySidebar" auw3-toggle-class="#openMenu,w3-hide,w3-show;#closeMenu,w3-hide,w3-show">&#9776;</button>
+				<div class="w3-container">
+					<h1>AuW3 <span class="w3-small">Automated W3.JS &amp; Augmented W3.CSS</span></h1>
+				</div>
+			</div>
+			<div class="w3-container">
+			</div>
+		</div>
+		<div class="w3-container w3-orange w3-bottom w3-center w3-small">
+			<p>Powered by 
+				<a href="https://www.w3schools.com/w3css/" target="_blank">W3.CSS</a>, 
+				<a href="https://www.w3schools.com/w3js/" target="_blank">W3.JS</a>, 
+				<a href="http://fontawesome.io/" target="_blank">Font Awesome</a>
+			</p>
+		</div>
+
+		<script src="https://www.w3schools.com/lib/w3.js"></script>
+		<script src="auw3.js"></script>
+	</body>
+</html>
