@@ -1,4 +1,4 @@
-/* AuW3.JS 0.3.0 December 2017 https://github.com/nathanielwiley/AuW3 */
+/* AuW3.JS 0.3.1 December 2017 https://github.com/nathanielwiley/AuW3 */
 /* Dependent on W3.JS https://www.w3schools.com/w3js/ by w3schools.com  */
 ;"use strict";
 if(typeof(w3) === 'object'){
@@ -36,8 +36,13 @@ if(typeof(w3) === 'object'){
 						var thisShow = aSlideShows[thisShowIndex];
 						if(thisTask.map === 'speed'){
 							var stopped = (thisShow.milliseconds === 0)? true : false;
-							thisShow.milliseconds = (thisTask.value)? value : Number(complexArgs[1]);
+							thisShow.milliseconds = (thisTask.value)? Number(value) : Number(complexArgs[1]);
 							if(stopped || thisTask.value) thisShow.start();
+						} else if(thisTask.map === 'set'){
+							var slideNumber = (thisTask.value)? Number(value) : Number(complexArgs[1]);
+							if(slideNumber < 1 || slideNumber > thisShow.x.length) slideNumber = 1;
+							thisShow.current = slideNumber;
+							thisShow.start();
 						} else if(thisTask.map === 'stop'){
 							thisShow.milliseconds = 0;
 						} else {
@@ -69,7 +74,9 @@ if(typeof(w3) === 'object'){
 		buildTask('click','slide-next',false,'next',false,true);
 		buildTask('click','slide-stop',false,'stop',false,true);
 		buildTask('click','slide-speed',false,'speed',false,true);
+		buildTask('click','slide-set',false,'set',false,true);
 		buildTask('change','slide-speed',false,'speed',true,true);
+		buildTask('change','slide-set',false,'set',true,true);
 		/*	END Behavior Definitions	*/
 		return {
 			state:function(){ return oTasks; },
@@ -91,5 +98,5 @@ if(typeof(w3) === 'object'){
 	for(var i in AuW3.state()){
 		document.body.addEventListener(i,function(event){ AuW3.runTasks(event); });
 	}
-	AuW3.slideshow('.AuW3-auto-slide');
+	if(w3.getElements('.AuW3-auto-slide').length) AuW3.slideshow('.AuW3-auto-slide');
 }
