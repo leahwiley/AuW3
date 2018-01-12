@@ -1,9 +1,9 @@
-/* AuW3.JS 0.3.1 December 2017 https://github.com/nathanielwiley/AuW3 */
+/* AuW3.JS January 2018 https://github.com/nathanielwiley/AuW3 */
 /* Dependent on W3.JS https://www.w3schools.com/w3js/ by w3schools.com  */
 ;"use strict";
 if(typeof(w3) === 'object'){
 	var AuW3 = AuW3 || (function(){
-		var oTasks = {},aSlideShows=[],slideShowIndex={};
+		var v='0.4.0',oTasks = {},aSlideShows=[],slideShowIndex={};
 		function buildTask(category,name,simpleArgs,map,useValue,slideShow){
 			name = name || '';
 			map = map || name;
@@ -79,12 +79,22 @@ if(typeof(w3) === 'object'){
 		buildTask('change','slide-set',false,'set',true,true);
 		/*	END Behavior Definitions	*/
 		return {
+			version:function(){ return v; },
 			state:function(){ return oTasks; },
 			runTasks:function(event){
 				readTasks(event);
 				for(var i in oTasks[event.type]){
 					runTask(event.type,i,event.target.value);
 				}
+			},
+			hasClass:function(el,className){
+				var has = false;
+				className = className || '';
+				if(el && el.className && typeof(el.className) === 'string'){
+					var aClasses = el.className.split(' ');
+					has = (aClasses.indexOf(className) > -1)? true : false;
+				}
+				return has;
 			},
 			slideshow:function(selector,interval){
 				var show = w3.slideshow(selector,interval);

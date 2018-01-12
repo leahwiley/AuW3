@@ -22,7 +22,7 @@
 		<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" id="mySidebar">
 			<div class="w3-container">
 				<button id="closeMenu" class="w3-button w3-hide-large w3-large w3-display-topright w3-hide w3-amber" auw3-hide="#mySidebar" auw3-toggle-class="#openMenu,w3-hide,w3-show;#closeMenu,w3-hide,w3-show">&times;</button>
-				<p><strong class="w3-large"><a href="#">AuW3 <span class="w3-small">(0.3.1)</span></a></strong></p>
+				<p><strong class="w3-large"><a href="#">AuW3 <span id="AuW3version" class="w3-small">(0.3.1)</span></a></strong></p>
 				<p><a href="https://github.com/nathanielwiley/AuW3" class="w3-small" target="_blank">Github Repository <i class="fa fa-lg fa-github"></i></a></p>
 			</div>
 			<input name="navFilter" id="navFilter" auw3-filter-html="#nav,a.w3-bar-item" placeholder="Filter" value="" type="text" class="w3-input w3-border">
@@ -96,5 +96,8 @@ Quisque massa sem, euismod eu fermentum vitae, facilisis ultricies urna. Morbi q
 		</div>
 		<script src="https://www.w3schools.com/lib/w3.js"></script>
 		<script src="auw3.js"></script>
+		<script>
+			document.getElementById('AuW3version').innerHTML = '('+AuW3.version()+')';
+		</script>
 	</body>
 </html>
