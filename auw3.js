@@ -109,4 +109,5 @@ if(typeof(w3) === 'object'){
 		document.body.addEventListener(i,function(event){ AuW3.runTasks(event); });
 	}
 	if(w3.getElements('.AuW3-auto-slide').length) AuW3.slideshow('.AuW3-auto-slide');
+	if(w3.getElements('.AuW3-auto-hide').length) w3.hide('.AuW3-auto-hide');
 }
