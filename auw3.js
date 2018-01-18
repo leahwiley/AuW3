@@ -3,7 +3,7 @@
 ;"use strict";
 if(typeof(w3) === 'object'){
 	var AuW3 = AuW3 || (function(){
-		var v='0.4.0',oTasks = {},aSlideShows=[],slideShowIndex={};
+		var v='0.5.0',oTasks = {},aSlideShows=[],slideShowIndex={};
 		function buildTask(category,name,simpleArgs,map,useValue,slideShow){
 			name = name || '';
 			map = map || name;
