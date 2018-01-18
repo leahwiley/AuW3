@@ -59,6 +59,35 @@ if(typeof(w3) === 'object'){
 				}
 			}
 		}
+		function runTasks(event){
+			readTasks(event);
+			for(var i in oTasks[event.type]){
+				runTask(event.type,i,event.target.value);
+			}
+		}
+		function init(){
+			if(w3.getElements('[w3-include-html]').length){
+				w3.includeHTML(includeCallback());
+			} else {
+				includeCallback();
+			}
+		}
+		function includeCallback(){
+			if(w3.getElements('.AuW3-auto-slide').length) AuW3.slideshow('.AuW3-auto-slide');
+			if(w3.getElements('.AuW3-auto-hide').length) w3.hide('.AuW3-auto-hide');
+			var dspObjs = w3.getElements('[auw3-display-object]');
+			dspObjs.forEach(function(el){
+				var dspData = {}, kvPairs = el.getAttribute('auw3-display-object').split(',');
+				for(var i in kvPairs){
+					var kvPair = kvPairs[i].split(':');
+					dspData[kvPair[0]] = eval(kvPair[1]);
+				}
+				w3.displayObject(el.id,dspData);
+			});
+			for(var i in oTasks){
+				document.body.addEventListener(i,function(event){ runTasks(event); });
+			}
+		}
 		/*	START Behavior Definitions	*/
 		buildTask('input','filter-html',false,'filterHTML',true);
 		buildTask('click','hide',true);
@@ -78,15 +107,9 @@ if(typeof(w3) === 'object'){
 		buildTask('change','slide-speed',false,'speed',true,true);
 		buildTask('change','slide-set',false,'set',true,true);
 		/*	END Behavior Definitions	*/
+		init();
 		return {
 			version:function(){ return v; },
-			state:function(){ return oTasks; },
-			runTasks:function(event){
-				readTasks(event);
-				for(var i in oTasks[event.type]){
-					runTask(event.type,i,event.target.value);
-				}
-			},
 			hasClass:function(el,className){
 				var has = false;
 				className = className || '';
@@ -105,10 +128,4 @@ if(typeof(w3) === 'object'){
 			SlideShows: function(){ return aSlideShows; }
 		};
 	})();
-	for(var i in AuW3.state()){
-		document.body.addEventListener(i,function(event){ AuW3.runTasks(event); });
-	}
-	if(w3.getElements('.AuW3-auto-slide').length) AuW3.slideshow('.AuW3-auto-slide');
-	if(w3.getElements('.AuW3-auto-hide').length) w3.hide('.AuW3-auto-hide');
-	if(w3.getElements('[w3-include-html]').length) w3.includeHTML();
 }
